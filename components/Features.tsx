@@ -6,7 +6,7 @@ const features = [
   {
     title: "Granular Engine",
     description:
-      "4 independent voices with Morphagene-inspired controls. 10 filter models, 8 grain envelope shapes, and per-voice recording with overdub.",
+      "4 independent voices with 10 filter models, 8 grain envelope shapes, and per-voice recording with overdub. Includes a Looper and Slicer for creative looping of prerecorded audio and live inputs.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         <circle cx="8" cy="16" r="6" stroke="#FF6A3D" strokeWidth="1.5" opacity="0.9" />
@@ -18,9 +18,9 @@ const features = [
     ),
   },
   {
-    title: "Plaits — 24 Engines",
+    title: "Macro Oscillator — 24 Engines",
     description:
-      "Virtual analog, FM, wavetable, chords, speech, string, and 6-OP FM with DX7 patch loading. 30ms crossfade between engines.",
+      "Based on Plaits, the popular open-source module by Mutable Instruments. Virtual analog, FM, wavetable, chords, speech, string, and 6-OP FM with DX7 patch loading.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         <path d="M4 16 Q8 6, 12 16 T20 16 T28 16" stroke="#FF6A3D" strokeWidth="1.5" fill="none" />
@@ -30,9 +30,9 @@ const features = [
     ),
   },
   {
-    title: "Rings",
+    title: "Resonator",
     description:
-      "Modal resonator, sympathetic strings, FM voice, and more. Up to 4-voice polyphony with 11 chord types and physical modeling.",
+      "Based on Rings, the popular open-source module by Mutable Instruments. Modal resonator, sympathetic strings, FM voice, and more. Up to 4-voice polyphony with physical modeling.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         <circle cx="16" cy="16" r="12" stroke="#FF6A3D" strokeWidth="1.5" opacity="0.3" />
