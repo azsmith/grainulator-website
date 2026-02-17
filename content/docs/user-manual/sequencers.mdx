@@ -1,0 +1,88 @@
+---
+title: Sequencers
+description: Step sequencer, chord sequencer, drum sequencer, and Scramble
+order: 14
+section: User Manual
+---
+
+## Step Sequencer
+
+**2 tracks × 8 steps** with extensive per-step control. The two tracks run independently — each with its own clock division, direction, loop range, and output target.
+
+### Track Settings
+
+| Setting | Description |
+|---|---|
+| **Output** | Macro Osc, Resonator, Both, Drums, or Sampler |
+| **CHD** | Chord-follow toggle |
+| **Direction** | 12 playback modes |
+| **Division** | 20 clock divisions |
+| **Octave** | Base octave offset (-4 to +4) |
+| **Loop Start/End** | Loop range (steps 1-8) |
+
+### Per-Step Parameters
+
+| Parameter | Description |
+|---|---|
+| **Note Slot** | Degree in current scale (0-8) |
+| **Probability** | Chance of triggering (0-100%) |
+| **Ratchets** | Repetitions within the step (1-8) |
+| **Gate Mode** | EVERY, FIRST, LAST, TIE, REST |
+| **Step Type** | PLAY, SKIP, ELIDE, REST, TIE |
+| **Slide** | Portamento to next note |
+
+### Direction Modes (12)
+
+Forward, Reverse, Alternate, Random, Skip 2, Skip 3, Climb 2, Climb 3, Drunk Walk, Random No Repeat, Converge, Diverge.
+
+### Scale System (42 Scales)
+
+Major, Natural Minor, Harmonic Minor, Melodic Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Whole Tone, Major/Minor Pentatonic, Bebop scales, Blues, Diminished, Neapolitan, Hungarian, Persian, Balinese, Oriental, Chromatic, and more — plus a dynamic Chord Sequencer mode.
+
+### Accumulator System
+
+Per-step evolving pitch offset with Transpose, Range, Trigger mode (per-stage/pulse/ratchet), and Mode (per-step or shared across track).
+
+---
+
+## Chord Sequencer
+
+**1-8 step chord progression** integrated with the step sequencer's scale system. When scale is set to "Chord Sequencer" (scale #41), note slots map to chord tones.
+
+### Per-Step Configuration
+
+- **Degree** — root of chord relative to key (12 options: I through vii)
+- **Quality** — chord type (17 options: Major, Minor, Diminished, Augmented, Sus2, Sus4, Power, Maj7, m7, Dom7, Half-dim, Full-dim, Dom9, Maj9, m9, Dom11, Dom13)
+- **Active** — mute individual steps
+
+### Preset Categories
+
+Pop/Rock, Jazz, Blues/Soul, Folk/Country, Minor/Dark, Modal/Ambient.
+
+---
+
+## Scramble (Probabilistic Sequencer)
+
+Marbles-inspired probabilistic sequencer with gate patterns, quantized note sequences, and modulation CV.
+
+### Gate Generator
+
+Three simultaneous gate outputs with 7 modes: Coin Toss, Ratio, Alternating, Drums, Markov, Clusters, Divider.
+
+Controls: Bias, Length, Jitter, Deja Vu (Off/On/Locked), Loop length (1-16 steps).
+
+### Note Generator
+
+Three note outputs quantized to current scale. Control modes: Identical (unison), Tilt (fan spread), Bump (contrary motion).
+
+Controls: Spread, Bias, Smooth/Quantize, Range (1/2/4 octaves), Deja Vu.
+
+### Deja Vu
+
+Pattern memory system — **Off** (fresh random), **On** (probabilistic replay), **Locked** (frozen loop).
+
+---
+
+## Drum Sequencer
+
+**4 lanes × 16 steps** synced to master transport. Each lane triggers a DaisyDrums engine with per-step velocity and per-lane Harmonics/Timbre/Morph controls.

@@ -1,0 +1,114 @@
+---
+title: Hardware & Settings
+description: Monome Arc/Grid, MIDI, AI control, recording, projects, keyboard shortcuts
+order: 16
+section: User Manual
+---
+
+## Monome Arc 4
+
+4 endless rotary encoders with LED ring feedback. Connects via serialosc on port 17842.
+
+### Encoder Mappings
+
+**Primary layer:** Speed, Size, Density, Position
+
+**Shift layer:** Jitter, Pitch, Filter Cutoff, Morph
+
+**Looper mode:** When a looper voice is selected, encoders map to looper-specific controls.
+
+LED rings display parameter values at 30 Hz.
+
+---
+
+## Monome Grid 128
+
+16×8 button grid with variable-brightness LEDs. Connects via serialosc on port 17843.
+
+### Layout
+
+- **Step matrix (columns 0-7):** Step sequencer pattern. Each column = step, each row = note slot.
+- **Control panel (columns 8-15):** Track selection, loop editing, chord mode, step/gate type selection.
+
+LED output rendered at 30 Hz.
+
+---
+
+## MIDI
+
+### Auto-Discovery
+
+MIDI devices are detected automatically via CoreMIDI.
+
+### Default CC Mappings
+
+| CC | Parameter |
+|---|---|
+| CC 1 (Mod Wheel) | Macro Osc Morph |
+| CC 74 (Brightness) | Macro Osc Timbre |
+| CC 71 (Resonance) | Macro Osc Harmonics |
+
+---
+
+## AI Conversational Control
+
+HTTP API for natural-language control via ChatGPT or Claude.
+
+| Setting | Value |
+|---|---|
+| **Protocol** | HTTP/1.1 + WebSocket |
+| **Address** | `127.0.0.1:4850` |
+| **Base Path** | `/v1` |
+| **Auth** | Bearer token |
+
+Capabilities: session management, state reads, action bundles with timing/quantization, recording control, WebSocket event stream.
+
+For full API details, see [AI Control API](/docs/ai-api).
+
+---
+
+## Recording
+
+### Master Output
+
+48 kHz / 24-bit stereo WAV, saved to `~/Music/Grainulator/Recordings/`.
+
+### Per-Voice Recording
+
+Record into granular/looper buffers from external inputs or internal engines with one-shot or live loop mode.
+
+---
+
+## Project Management
+
+Projects saved as `.grn` files with a sibling `audio/` folder. Legacy `.grainulator` format supported. Automatic migration across 6 format versions.
+
+---
+
+## Keyboard Shortcuts
+
+### File
+
+| Shortcut | Action |
+|---|---|
+| **Cmd + N** | New Project |
+| **Cmd + O** | Open Project |
+| **Cmd + S** | Save Project |
+| **Cmd + Shift + S** | Save As |
+
+### Transport
+
+| Shortcut | Action |
+|---|---|
+| **Space** | Play / Stop |
+| **Return** | Stop & Reset |
+| **Cmd + Up/Down** | Change BPM |
+| **Cmd + .** | All Notes Off (panic) |
+
+### View
+
+| Shortcut | Action |
+|---|---|
+| **Cmd + Shift + 1-4** | Switch workspace tabs |
+| **Cmd + 0-8** | Focus specific voice |
+| **X** | Toggle Mixer |

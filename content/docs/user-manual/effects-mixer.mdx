@@ -1,0 +1,106 @@
+---
+title: Effects & Mixer
+description: Tape delay, reverb, master filter, compressor, and 8-channel mixer
+order: 15
+section: User Manual
+---
+
+## Mixer
+
+### Signal Flow
+
+```
+Synthesis Engines → Per-Channel (Level, Pan, Inserts) → Mix Bus
+                 └→ Send A (Delay bus) → FX Return A → Mix Bus
+                 └→ Send B (Reverb bus) → FX Return B → Mix Bus
+                                                          │
+                                                    Master Filter
+                                                          │
+                                                    Master Compressor
+                                                          │
+                                                    Master Gain → Output
+```
+
+### 8 Channel Strips
+
+| Channel | Source |
+|---|---|
+| 0 | Macro Osc |
+| 1 | Resonator |
+| 2 | Granular 1 |
+| 3 | Looper 1 |
+| 4 | Looper 2 |
+| 5 | Granular 2 |
+| 6 | Drums |
+| 7 | Sampler |
+
+### Per-Channel Controls
+
+| Control | Description |
+|---|---|
+| **Level** | Channel volume (0-200%) |
+| **Pan** | Stereo position |
+| **Mute / Solo** | Per-channel mute and solo |
+| **Send A / B** | Delay and reverb send levels |
+| **Send Mode** | Pre or post fader |
+| **Insert 1 / 2** | AU or VST3 plugin slots |
+| **Micro Delay** | 0-50ms stereo delay for width |
+| **Phase** | Polarity invert |
+
+> **Tip:** Use micro delay on selected channels (even 1-5ms) to create subtle stereo width through the Haas effect.
+
+---
+
+## Delay
+
+Tape-style delay with analog character:
+
+| Parameter | Description |
+|---|---|
+| **Time** | Delay repeat interval |
+| **Feedback** | Regeneration amount (near max = self-oscillation) |
+| **Mix** | Dry/wet balance |
+| **Wow** | Low-frequency pitch wobble (tape speed variation) |
+| **Flutter** | High-frequency pitch wobble (motor instability) |
+| **Tone** | Dark (tape-saturated) to bright (clean) |
+| **Sync** | Free-running or tempo-synced |
+
+## Reverb
+
+| Parameter | Description |
+|---|---|
+| **Size** | Room size (small room to infinite space) |
+| **Damping** | High-frequency damping |
+| **Mix** | Dry/wet balance |
+
+## Master Filter
+
+Global filter on the master output with cutoff, resonance, and 10 model variants (same as the granular filter models).
+
+## Master Compressor / Limiter
+
+Feed-forward dynamics processor with Threshold, Ratio, Attack, Release, Knee, Makeup Gain, Parallel Mix, Limiter mode, and Auto Gain.
+
+---
+
+## Master Clock & Modulation
+
+### Clock Outputs (8)
+
+Eight configurable outputs in CLK (trigger) or LFO (continuous modulation) mode.
+
+Per-output settings: Waveform (8 types), Division, Level, Offset, Phase, Width, Slow Mode, Mute.
+
+### Waveform Types
+
+Gate, Sine, Triangle, Sawtooth, Ramp, Square, Random, Sample & Hold.
+
+### 25 Modulation Destinations
+
+Route any clock output to parameters across all engines:
+
+- **Macro Osc:** Harmonics, Timbre, Morph, LPG Decay
+- **Resonator:** Structure, Brightness, Damping, Position
+- **Delay:** Time, Feedback, Wow, Flutter
+- **Granular 1/2:** Speed, Pitch, Size, Density, Filter
+- **DaisyDrums:** Harmonics, Timbre, Morph

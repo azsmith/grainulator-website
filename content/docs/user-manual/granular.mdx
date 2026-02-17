@@ -1,0 +1,84 @@
+---
+title: Granular & Looper
+description: 4 granular voices, 2 looper voices, recording modes
+order: 13
+section: User Manual
+---
+
+## Granular Synthesis
+
+Grainulator provides **4 independent granular voices**, each with its own audio buffer, grain engine, and parameter set.
+
+### Loading Audio
+
+Click **LOAD** on any voice to open a file browser. Supported formats: WAV, AIFF, MP3, and other AVFoundation-supported formats.
+
+> **Tip:** Try field recordings, vocal samples, orchestral hits, or full songs. Short percussive samples work well for rhythmic patterns; sustained tones are ideal for ambient pads.
+
+### Grain Parameters
+
+| Parameter | Description |
+|---|---|
+| **Speed** | Playback rate. 1.0 = normal, 0.5 = half speed, negative = reverse |
+| **Pitch** | Pitch shift in semitones (independent of speed) |
+| **Size** | Grain duration in milliseconds |
+| **Density** | Number of overlapping grains per second |
+| **Jitter** | Randomization of grain start position |
+| **Spread** | Stereo width of the grain cloud |
+| **Morph** | Additional timbral morphing |
+
+### Filter
+
+Each voice has an independent filter with cutoff and resonance. Ten models available:
+
+| # | Model | Character |
+|---|---|---|
+| 0 | **Stilson** | Bright, aggressive resonance |
+| 1 | **Microtracker** | Vintage tracker / chiptune feel |
+| 2 | **Krajeski** | Balanced, musical self-oscillation |
+| 3 | **MusicDSP** | General-purpose, efficient |
+| 4 | **Oberheim** | Smooth, rounded ladder |
+| 5 | **Improved** | Enhanced ladder, cleaner resonance |
+| 6 | **RK Simulation** | Runge-Kutta circuit simulation, very smooth |
+| 7 | **Hyperion** | Extended range, rich harmonics (default) |
+| 8 | **DaisyLadder** | Punchy analog character |
+| 9 | **CytomicSVF** | Stable and versatile state-variable |
+
+### Grain Envelope Shapes
+
+| Shape | Description |
+|---|---|
+| **Hanning** | Smooth bell curve (default) |
+| **Gaussian** | Very smooth, narrow peak |
+| **Trapezoid** | Flat top with linear ramps |
+| **Triangle** | Simple linear fade in/out |
+| **Tukey** | Flat center with cosine edges |
+| **Pluck** | Fast exponential decay |
+| **Pluck Soft** | Slower exponential decay |
+| **Exp Decay** | Pure exponential decay (percussive) |
+
+### Recording into Buffers
+
+| Setting | Options |
+|---|---|
+| **Mode** | One-Shot (record once) or Live Loop (continuous overdub) |
+| **Source** | External (mic/input) or internal engine channels |
+| **Feedback** | Overdub level (0 = destructive, 1 = full layer) |
+
+---
+
+## Looper
+
+Two independent **MLRE-inspired looper voices** for tape-loop style recording and playback, inspired by monome mlr/mlrv.
+
+### Controls
+
+| Control | Description |
+|---|---|
+| **Rate** | Playback speed (0.25x to 4x) |
+| **Reverse** | Toggle reverse playback |
+| **Loop Start** | Start position (0-1) |
+| **Loop End** | End position (0-1) |
+| **Cut (1-8)** | Eight cut buttons for position jumping |
+
+> **Tip:** Load a drum loop and rapidly tap different cut positions for stutter and rearrangement effects. Combine with rate changes and reverse for glitch-style performance.

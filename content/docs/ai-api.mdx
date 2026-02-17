@@ -1,0 +1,119 @@
+---
+title: AI Control API
+description: HTTP API reference for conversational control of Grainulator
+order: 20
+---
+
+## Overview
+
+Grainulator includes an HTTP/WebSocket API for AI-powered control, enabling natural-language interaction through tools like ChatGPT or Claude.
+
+## Connection
+
+| Setting | Value |
+|---|---|
+| **Control API** | `http://127.0.0.1:4850/v1` |
+| **Event API** | `ws://127.0.0.1:4850/v1/events` |
+| **Authentication** | Bearer token (session-scoped) |
+
+## Session Lifecycle
+
+1. Client creates a session
+2. Server returns a bearer token and negotiated capabilities
+3. Client uses token for subsequent requests
+4. Session expires on timeout or explicit close
+
+```bash
+# Create a session
+curl -X POST http://127.0.0.1:4850/v1/sessions \
+  -H "Content-Type: application/json" \
+  -d '{"clientId": "my-agent"}'
+```
+
+## Reading State
+
+```bash
+# Full state snapshot
+curl http://127.0.0.1:4850/v1/state \
+  -H "Authorization: Bearer $TOKEN"
+
+# Query specific path
+curl http://127.0.0.1:4850/v1/state?path=plaits.engine \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+## Action Bundles
+
+The API uses a **validate-then-schedule** pattern:
+
+### Step 1: Validate
+
+```bash
+curl -X POST http://127.0.0.1:4850/v1/actions/validate \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bundle": {
+      "bundleId": "set-bpm",
+      "atomic": true,
+      "actions": [
+        {"type": "set", "target": "transport.bpm", "value": 120}
+      ]
+    }
+  }'
+```
+
+### Step 2: Schedule
+
+```bash
+curl -X POST http://127.0.0.1:4850/v1/actions/schedule \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "bundle": {
+      "bundleId": "set-bpm",
+      "atomic": true,
+      "actions": [
+        {"type": "set", "target": "transport.bpm", "value": 120}
+      ]
+    },
+    "applyMode": "best_effort",
+    "idempotencyKey": "unique-key-123"
+  }'
+```
+
+## Action Types
+
+| Type | Description |
+|---|---|
+| **set** | Set a parameter to a specific value |
+| **ramp** | Ramp a parameter over time |
+| **toggle** | Toggle a boolean parameter |
+
+## Recording Control
+
+```bash
+# Start recording on granular voice 1
+curl -X POST http://127.0.0.1:4850/v1/recording/start \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"voice": "grain1", "mode": "oneshot"}'
+```
+
+## WebSocket Events
+
+Connect to `ws://127.0.0.1:4850/v1/events` for real-time state change notifications. Events include parameter changes, transport state, and recording status.
+
+## Idempotency
+
+Write endpoints accept an `idempotencyKey`. Reusing the same key with the same payload returns the original result. Reusing with a different payload returns `409 Conflict`.
+
+## Claude Code Integration
+
+Use the `/grainulator` skill in Claude Code for natural language control:
+
+```
+/grainulator set the macro osc to the string model and play a C minor arpeggio
+```
+
+For the complete API specification, see the [OpenAPI schema](https://github.com/andysmith/Grainulator/blob/main/ai-conversational-control-openapi.yaml).

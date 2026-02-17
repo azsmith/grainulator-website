@@ -1,0 +1,124 @@
+---
+title: Synthesis Engines
+description: Macro Osc (24 engines), Resonator (6 models), DaisyDrums, and SoundFont Sampler
+order: 12
+section: User Manual
+---
+
+## Macro Osc
+
+Macro Osc is a macro-oscillator with **24 synthesis engines**, based on the full Mutable Instruments Macro Osc firmware. Every engine shares three main knobs — **Harmonics**, **Timbre**, and **Morph** — whose meaning changes per engine.
+
+### Common Controls
+
+| Control | Description |
+|---|---|
+| **Harmonics** | Model-dependent primary shape control |
+| **Timbre** | Model-dependent spectral/brightness control |
+| **Morph** | Model-dependent blend/variation control |
+| **Level** | Voice output level (0-100%) |
+| **Frequency / Note** | MIDI note pitch |
+| **Trigger** | Manual gate button |
+
+### LPG (Low-Pass Gate)
+
+| Control | Description |
+|---|---|
+| **Attack** | LPG envelope attack time |
+| **Decay** | LPG envelope decay time |
+| **Color** | LPG filter character (0 = pure VCA, 1 = VCA + low-pass filter) |
+| **Bypass** | Disable the LPG entirely |
+
+### Continuous Engines (0-10)
+
+These produce sound continuously while gated:
+
+| # | Name | Musical Character |
+|---|---|---|
+| 0 | **Virtual Analog** | Classic subtractive synth — fat basses, leads, pads |
+| 1 | **Waveshaper** | Wavefolding distortion — edgy, harmonically rich tones |
+| 2 | **Two-Op FM** | Two-operator FM — electric pianos, bells, metallic textures |
+| 3 | **Granular Formant** | VOSIM/Pulsar synthesis — vocal formants, buzzy textures |
+| 4 | **Harmonic** | Additive synthesis with 24 harmonics — organ-like, evolving |
+| 5 | **Wavetable** | Wavetable scanning — 4 banks of 8×8 wavetables + user bank |
+| 6 | **Chords** | Four-note chord generator — instant pads and stabs |
+| 7 | **Speech** | Vocal synthesis — robotic speech, vowel drones |
+| 8 | **Granular Cloud** | Micro-enveloped grains — ambient textures, shimmer |
+| 9 | **Filtered Noise** | Clocked noise through resonant filter — hi-hats, wind |
+| 10 | **Particle Noise** | Dust particles through bandpass — crackle, rain |
+
+### Triggered Engines (11-15)
+
+These have internal envelopes and decay naturally:
+
+| # | Name | Musical Character |
+|---|---|---|
+| 11 | **String** | Karplus-Strong — plucked strings, harps, metallic twangs |
+| 12 | **Modal** | Modal resonator — bells, marimbas, glass |
+| 13 | **Bass Drum** | Analog-style kick — tight 808 to booming sub |
+| 14 | **Snare Drum** | Analog-style snare — rimshots to loose rattles |
+| 15 | **Hi-Hat** | Analog-style hi-hat — metallic overtones |
+
+### Six-Op FM (16)
+
+DX7-style 6-operator FM with 32 algorithms and DX7 `.syx` patch loading. Harmonics sweeps algorithms, Timbre controls modulation depth, Morph adjusts operator balance.
+
+### Engine Crossfade
+
+When switching models, a **30ms crossfade** prevents clicks.
+
+### Custom Wavetable Loading
+
+When the **Wavetable** model is selected, a **LOAD WAVETABLE** button appears. Load custom wavetables into bank 4 (user bank). Set Harmonics ≥ 0.8 to select the user bank.
+
+---
+
+## Resonator
+
+Physical-modeling resonator based on Mutable Instruments Rings. Can be excited by its internal source or by audio from other engines.
+
+### Controls
+
+| Control | Description |
+|---|---|
+| **Structure** | Resonator geometry |
+| **Brightness** | Excitation brightness |
+| **Damping** | Decay time of resonances |
+| **Position** | Excitation position |
+| **FM** | Frequency modulation amount |
+| **Level** | Output level |
+
+### Models (6)
+
+| # | Name | Character |
+|---|---|---|
+| 0 | **Modal** | Bells, bars, plates, tuned percussion |
+| 1 | **Sympathetic** | Sitar, tanpura, prepared piano |
+| 2 | **String** | Plucked/bowed string — guitar, harp, cello |
+| 3 | **FM Voice** | FM through resonator — crystalline tones |
+| 4 | **Symp Quant** | Sympathetic with quantized tuning |
+| 5 | **String+Rev** | String with built-in reverb |
+
+### Polyphony
+
+Three modes: **1**, **2**, or **4** voices. Chord types available: Oct, 5th, sus4, min, m7, m9, m11, 69, M9, M7, Maj.
+
+---
+
+## DaisyDrums
+
+5 percussive synthesis engines with three shared macro knobs each:
+
+| Engine | Character |
+|---|---|
+| **Analog Kick** | Punch, tone, and decay control |
+| **Synth Kick** | Harmonics shaping |
+| **Analog Snare** | Noise amount and body balance |
+| **Synth Snare** | Harmonics shaping |
+| **Hi-Hat** | Metallic tone, open/closed |
+
+---
+
+## SoundFont / WAV Sampler
+
+Supports SF2, SFZ, and multi-sample WAV formats with ADSR envelope, filter cutoff/resonance, and tuning controls.
