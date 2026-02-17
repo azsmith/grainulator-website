@@ -1,10 +1,10 @@
-import MacWindow from "./MacWindow";
+import Image from "next/image";
 
 const screenshots = [
-  { label: "Sequencer", file: "screenshot-1.png" },
-  { label: "Synth Engines", file: "screenshot-2.png" },
-  { label: "Granular", file: "screenshot-3.png" },
-  { label: "Mixer", file: "screenshot-4.png" },
+  { label: "Sequencer", file: "screenshot-1.png", width: 2622, height: 1536 },
+  { label: "Synth Engines", file: "screenshot-2.png", width: 2622, height: 1536 },
+  { label: "Granular", file: "screenshot-3.png", width: 2622, height: 1536 },
+  { label: "Mixer", file: "screenshot-4.png", width: 1900, height: 1048 },
 ];
 
 export default function Screenshots() {
@@ -32,26 +32,16 @@ export default function Screenshots() {
               key={shot.file}
               className="w-[85vw] min-w-[320px] max-w-[600px] flex-shrink-0 snap-center"
             >
-              <MacWindow>
-                <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-bg-primary via-bg-secondary to-bg-primary">
-                  <div className="flex flex-col items-center gap-3 text-text-muted">
-                    <svg
-                      className="h-12 w-12 opacity-15"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 003.75 21z"
-                      />
-                    </svg>
-                    <span className="text-xs">{shot.label}</span>
-                  </div>
-                </div>
-              </MacWindow>
+              <div className="overflow-hidden rounded-xl border border-white/[0.06] shadow-2xl shadow-black/50">
+                <Image
+                  src={`/screenshots/${shot.file}`}
+                  alt={`Grainulator — ${shot.label} view`}
+                  width={shot.width}
+                  height={shot.height}
+                  className="block w-full h-auto"
+                />
+              </div>
+              <p className="mt-3 text-center text-sm text-text-muted">{shot.label}</p>
             </div>
           ))}
         </div>

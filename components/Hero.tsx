@@ -1,5 +1,4 @@
 import Image from "next/image";
-import MacWindow from "./MacWindow";
 
 export default function Hero() {
   return (
@@ -70,26 +69,16 @@ export default function Hero() {
 
         {/* Hero screenshot */}
         <div className="w-full max-w-4xl animate-[fadeInUp_1s_ease-out_0.5s_both]">
-          <MacWindow>
-            <div className="flex aspect-[16/10] items-center justify-center bg-gradient-to-br from-bg-primary via-bg-secondary to-bg-primary">
-              <div className="flex flex-col items-center gap-4 text-text-muted">
-                <svg
-                  className="h-16 w-16 opacity-20"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a2.25 2.25 0 002.25-2.25V5.25a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 003.75 21z"
-                  />
-                </svg>
-                <span className="text-sm">Screenshot coming soon</span>
-              </div>
-            </div>
-          </MacWindow>
+          <div className="overflow-hidden rounded-xl border border-white/[0.06] shadow-2xl shadow-black/50">
+            <Image
+              src="/screenshots/hero.png"
+              alt="Grainulator — Synth Engines view showing Macro OSC, Resonator, Drums, and Sampler panels"
+              width={2622}
+              height={1536}
+              priority
+              className="block w-full h-auto"
+            />
+          </div>
         </div>
       </div>
     </section>
