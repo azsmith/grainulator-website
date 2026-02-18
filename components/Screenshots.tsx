@@ -1,10 +1,12 @@
 import Image from "next/image";
 
 const screenshots = [
-  { label: "Sequencer", file: "screenshot-1.png", width: 2622, height: 1536 },
+  { label: "Sequencer", file: "screenshot-1.png", width: 2846, height: 1760 },
   { label: "Synth Engines", file: "screenshot-2.png", width: 2622, height: 1536 },
-  { label: "Granular", file: "screenshot-3.png", width: 2622, height: 1536 },
+  { label: "Granular", file: "screenshot-3.png", width: 2846, height: 1760 },
   { label: "Mixer", file: "screenshot-4.png", width: 1900, height: 1048 },
+  { label: "Slicer", file: "screenshot-5.png", width: 2968, height: 1760 },
+  { label: "Drum Sequencer", file: "screenshot-6.png", width: 2968, height: 1760 },
 ];
 
 export default function Screenshots() {
