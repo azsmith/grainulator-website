@@ -38,7 +38,7 @@ export default function Hero() {
         {/* CTAs */}
         <div className="mb-16 flex animate-[fadeInUp_0.8s_ease-out_0.3s_both] flex-col gap-4 sm:flex-row">
           <a
-            href="#"
+            href="https://github.com/azsmith/grainulator/releases/latest"
             className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-lg bg-accent px-8 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(255,106,61,0.4)]"
           >
             {/* Shine effect */}
@@ -53,7 +53,7 @@ export default function Hero() {
             Download for macOS
           </a>
           <a
-            href="#"
+            href="https://github.com/azsmith/grainulator"
             className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 px-8 py-3.5 text-base font-semibold text-text-secondary transition-all duration-300 hover:border-accent/40 hover:text-white"
           >
             <svg
