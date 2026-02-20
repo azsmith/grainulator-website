@@ -1,6 +1,6 @@
 ---
 title: Effects & Mixer
-description: Tape delay, reverb, master filter, compressor, and 8-channel mixer
+description: Tape delay, reverb, master filter, compressor, 8-channel mixer, swing & humanize
 order: 15
 section: User Manual
 ---
@@ -10,15 +10,26 @@ section: User Manual
 ### Signal Flow
 
 ```
-Synthesis Engines → Per-Channel (Level, Pan, Inserts) → Mix Bus
-                 └→ Send A (Delay bus) → FX Return A → Mix Bus
-                 └→ Send B (Reverb bus) → FX Return B → Mix Bus
-                                                          │
-                                                    Master Filter
-                                                          │
-                                                    Master Compressor
-                                                          │
-                                                    Master Gain → Output
+Synthesis Engines ──► Per-Channel (Level, Pan, Inserts, Micro Delay, Phase) ──► Mix Bus
+                  └──► Send A (pre/post fader) ──► Send A Plugin (Delay bus) ─► FX Return A ─► Mix Bus
+                  └──► Send B (pre/post fader) ──► Send B Plugin (Reverb bus) ─► FX Return B ─► Mix Bus
+                                                                                                  │
+                                                                                    Summing Headroom (-6dB)
+                                                                                                  │
+                                                                                          Master Filter
+                                                                                                  │
+                                                                                          Master Gain
+                                                                                                  │
+                                                                                         Level Metering
+                                                                                      (pre-clip, can show >0dB)
+                                                                                                  │
+                                                                                   Master Compressor / Limiter
+                                                                                  (ON by default, -3dB threshold)
+                                                                                                  │
+                                                                                     Soft Clip (tanh saturation)
+                                                                                                  │
+                                                                                          Audio Output
+                                                                                         (+ Recording)
 ```
 
 ### 8 Channel Strips
@@ -34,20 +45,48 @@ Synthesis Engines → Per-Channel (Level, Pan, Inserts) → Mix Bus
 | 6 | Drums |
 | 7 | Sampler |
 
+### Fader Law
+
+All mixer faders use a **non-linear (logarithmic) dB curve** modeled after professional mixing consoles:
+
+- **0 dB (unity)** sits at approximately **75%** of fader travel
+- **+6 dB** is at the top of the fader
+- Below 0 dB, the scale is logarithmic — compressing a wide dB range into the lower portion of the fader throw
+- Scale marks at 0, 6, 12, 18, 24, 36, 48, and 60 dB
+
+This gives precise control in the critical 0 to -12 dB range where most mixing happens, while still allowing full attenuation down to silence.
+
 ### Per-Channel Controls
+
+| Control | Range | Description |
+|---|---|---|
+| **Level** | 0-200% | Channel volume (maps to 0-2 for +6 dB headroom) |
+| **Pan** | L-C-R | Stereo position (0.5 = center) |
+| **Mute / Solo** | On/Off | Per-channel mute and solo |
+| **Send A** | 0-100% | Delay send level |
+| **Send B** | 0-100% | Reverb send level |
+| **Send Mode** | Pre/Post | Send level tap point per bus |
+| **Insert 1 / 2** | Plugin slots | Per-channel insert effects (AU or VST3, backend-dependent) |
+| **Micro Delay** | 0-50ms | Per-channel stereo delay for width |
+| **Phase** | Normal/Inverted | Per-channel polarity invert |
+
+> **Tip:** Use micro delay on selected channels (even 1-5ms) to create subtle stereo width through the Haas effect. Pan the granular voices and loopers to different positions for a wide stereo image.
+
+### Master Section
+
+The master strip is organized top-to-bottom: header, filter and compressor controls, fader with stereo VU meters, dB display, and mute button.
 
 | Control | Description |
 |---|---|
-| **Level** | Channel volume (0-200%) |
-| **Pan** | Stereo position |
-| **Mute / Solo** | Per-channel mute and solo |
-| **Send A / B** | Delay and reverb send levels |
-| **Send Mode** | Pre or post fader |
-| **Insert 1 / 2** | AU or VST3 plugin slots |
-| **Micro Delay** | 0-50ms stereo delay for width |
-| **Phase** | Polarity invert |
+| **Master Gain** | Master output volume (0-200%, with +6 dB headroom above unity) |
+| **Master Filter** | Cutoff and resonance knobs above the fader for global tone shaping |
+| **COMP** | Opens master compressor/limiter popover (enabled by default) |
+| **Delay Return / Reverb Return** | Return levels for Send A and Send B buses |
+| **Mute** | Master mute button |
 
-> **Tip:** Use micro delay on selected channels (even 1-5ms) to create subtle stereo width through the Haas effect.
+The mix bus applies **-6 dB of summing headroom** before the master gain stage to prevent distortion when multiple channels play simultaneously.
+
+The **master meters** show the **pre-clip level** (after master gain, before the compressor and soft-clipper). Meter values can exceed 0 dB to indicate overload.
 
 ---
 
@@ -60,10 +99,13 @@ Tape-style delay with analog character:
 | **Time** | Delay repeat interval |
 | **Feedback** | Regeneration amount (near max = self-oscillation) |
 | **Mix** | Dry/wet balance |
+| **Head Mode** | Classic tape head configuration — selects different multi-head playback patterns |
 | **Wow** | Low-frequency pitch wobble (tape speed variation) |
 | **Flutter** | High-frequency pitch wobble (motor instability) |
 | **Tone** | Dark (tape-saturated) to bright (clean) |
 | **Sync** | Free-running or tempo-synced |
+| **Tempo** | Internal delay tempo (60-180 BPM) when Sync is off |
+| **Subdivision** | Rhythmic division when Sync is on (quarter, eighth, dotted, triplet, etc.) |
 
 ## Reverb
 
@@ -79,7 +121,19 @@ Global filter on the master output with cutoff, resonance, and 10 model variants
 
 ## Master Compressor / Limiter
 
-Feed-forward dynamics processor with Threshold, Ratio, Attack, Release, Knee, Makeup Gain, Parallel Mix, Limiter mode, and Auto Gain.
+A feed-forward dynamics stage on the master bus, **enabled by default** as a safety net to prevent clipping. The default threshold of **-3 dB** catches only peaks, preserving dynamics while preventing distortion. The brickwall limiter clamps the output at 0 dBFS.
+
+| Parameter | Default | Description |
+|---|---|---|
+| **Threshold** | -3 dB | Compression threshold (-60 dB to 0 dB) |
+| **Ratio** | ~4:1 | Compression ratio (1:1 to 20:1, high settings approach limiting) |
+| **Attack** | ~5 ms | Attack time (fast to slow) |
+| **Release** | ~100 ms | Release time |
+| **Knee** | 6 dB | Soft/hard transition around threshold |
+| **Gain** | 0 dB | Makeup gain |
+| **Mix** | 100% | Parallel compression blend (dry/wet) |
+| **Limit** | On | Brickwall limiter (clamps at 0 dBFS) |
+| **Auto** | Off | Auto makeup gain toggle |
 
 ---
 
@@ -104,3 +158,40 @@ Route any clock output to parameters across all engines:
 - **Delay:** Time, Feedback, Wow, Flutter
 - **Granular 1/2:** Speed, Pitch, Size, Density, Filter
 - **DaisyDrums:** Harmonics, Timbre, Morph
+
+---
+
+## Swing & Humanize
+
+Grainulator provides **multi-level swing** that cascades from global settings down to individual sequencer tracks and drum lanes. Swing displaces the timing of odd subdivisions to create groove, while humanize adds subtle random timing and velocity variations.
+
+### Global Swing (Tab Bar)
+
+When the SEQ tab is active, swing controls appear in the tab bar:
+
+| Control | Description |
+|---|---|
+| **Swing Amount** | 50% = straight timing, 67% = triplet feel. Range 50-75%. |
+| **Swing Grid** | Which subdivision is swung: 1/4, 1/8, 1/16, or 1/32 |
+| **Swing Algorithm** | **MPC** (uniform displacement) or **SINE** (weighted by position in bar — stronger swing in the middle, lighter at bar boundaries) |
+
+### Per-Track Swing (Step Sequencer)
+
+Each step sequencer track can override the global swing:
+
+| Control | Description |
+|---|---|
+| **Swing** | Per-track swing amount (OFF = inherit global, or 50-75%) |
+| **Humanize Timing** | Random timing offset per note (0-30ms, triangular distribution) |
+| **Humanize Velocity** | Random velocity variation per note (0-30%) |
+
+### Per-Lane Swing (Drum Sequencer)
+
+Each drum lane can independently override swing:
+
+| Control | Description |
+|---|---|
+| **SWG** | Per-lane swing amount (OFF = inherit global, or 50-75%) |
+| **HUM** | Per-lane humanize timing (0-30ms) |
+
+This enables common production techniques like keeping the kick drum straight while swinging the hi-hats, or applying different groove amounts to different rhythmic elements.

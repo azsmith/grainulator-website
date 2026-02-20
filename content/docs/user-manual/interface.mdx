@@ -1,6 +1,6 @@
 ---
 title: Interface Overview
-description: Window layout, transport bar, and workspace tabs
+description: Window layout, transport bar, tab bar, and workspace tabs
 order: 11
 section: User Manual
 ---
@@ -9,16 +9,18 @@ section: User Manual
 
 The main window is divided into two areas:
 
-1. **Transport bar** (top) — transport controls, BPM, clock pads, and tab navigation.
+1. **Transport bar** (top) — transport controls, BPM, and clock pads.
 2. **Workspace area** (below) — the currently selected tab's content.
 
 Two additional **floating windows** can be opened from the transport bar:
 - **Mixer** — channel levels, pans, sends, and master
 - **Oscilloscope** — real-time waveform display with dual-source overlay
 
-## Transport Bar
+## Transport & Tab Bar
 
-From left to right:
+The top area is split into two rows:
+
+**Transport bar** (upper row) — from left to right:
 
 | Control | Description |
 |---|---|
@@ -26,17 +28,24 @@ From left to right:
 | **Record** | Toggle master output recording (WAV capture) |
 | **BPM** | Draggable tempo display (range 20-300 BPM) |
 | **Tap Tempo** | Tap repeatedly to set BPM from your tapping interval |
-| **Swing** | Adjustable swing amount |
 | **Clock Pads (1-8)** | Eight configurable clock outputs; tap to open configuration popover |
-| **Tab Buttons** | SEQ, SYNTH, GRAN, DRUM |
 | **Mixer** | Toggle the floating mixer window |
 | **Scope** | Toggle the floating oscilloscope window |
+
+**Tab bar** (lower row) — workspace tabs plus context-specific controls:
+
+| Control | Description |
+|---|---|
+| **Tab Buttons** | SEQ, SYNTHS, GRAINS, DRUMS |
+| **Context Controls** | When the SEQ tab is active, swing controls (amount, grid, algorithm) appear inline in the tab bar |
 
 ## Workspace Tabs
 
 | Tab | Short Name | Content |
 |---|---|---|
-| SEQUENCER | SEQ | Step sequencer (2 tracks × 8 steps) + chord sequencer |
-| SYNTHS | SYNTH | Macro Osc and Resonator synthesis panels |
-| GRANULAR | GRAN | 4 granular voices + 2 looper voices |
-| DRUMS | DRUM | DaisyDrums engine + 4-lane × 16-step drum sequencer |
+| SEQUENCER | SEQ | Step sequencer (2 tracks × 8 steps) + chord sequencer + Scramble |
+| SYNTHS | SYNTHS | Macro Osc and Resonator synthesis panels |
+| GRANULAR | GRAINS | Sub-navigation for granular voices, slicer, and looper |
+| DRUMS | DRUMS | DaisyDrums engine + 4-lane × 16-step drum sequencer with pattern bank |
+
+The **GRAINS** tab uses sub-navigation within the tab content area. Voice tabs (Voice 1-4, Slicer, Looper) appear at the top of the workspace rather than in the main tab bar, keeping the main tabs clean while providing full access to all 6 voices.

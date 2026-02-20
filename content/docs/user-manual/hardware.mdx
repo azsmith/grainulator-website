@@ -61,9 +61,22 @@ HTTP API for natural-language control via ChatGPT or Claude.
 | **Base Path** | `/v1` |
 | **Auth** | Bearer token |
 
-Capabilities: session management, state reads, action bundles with timing/quantization, recording control, WebSocket event stream.
+Capabilities: session management, state reads, action bundles with timing/quantization, recording control, scene save/recall, undo/redo history, file search, WebSocket event stream.
 
 For full API details, see [AI Control API](/docs/ai-api).
+
+---
+
+## Oscilloscope
+
+The oscilloscope opens as a **floating window** and provides a real-time waveform display.
+
+| Feature | Description |
+|---|---|
+| **Dual-source overlay** | Display two audio sources simultaneously for comparison |
+| **Source selection** | Choose which engine/channel to visualize (includes Scramble gate, note, and mod sources) |
+| **Time scale** | Adjust the horizontal zoom level |
+| **Per-sample clock waveforms** | Visualize clock output signals alongside audio |
 
 ---
 
@@ -71,17 +84,56 @@ For full API details, see [AI Control API](/docs/ai-api).
 
 ### Master Output
 
-48 kHz / 24-bit stereo WAV, saved to `~/Music/Grainulator/Recordings/`.
+| Setting | Value |
+|---|---|
+| **Format** | WAV (Linear PCM) |
+| **Sample Rate** | 48 kHz |
+| **Bit Depth** | 24-bit integer |
+| **Channels** | Stereo |
+| **Save Location** | `~/Music/Grainulator/Recordings/` |
+| **Filename** | `{ProjectName}_{YYYY-MM-DD_HH-mm-ss}.wav` |
 
 ### Per-Voice Recording
 
-Record into granular/looper buffers from external inputs or internal engines with one-shot or live loop mode.
+Record into granular/looper buffers from external inputs, internal engines, or **master output** with one-shot or live loop mode. Slicer/looper voices default to **one-shot**, which normalizes the buffer length to the actual recorded content on stop.
 
 ---
 
 ## Project Management
 
-Projects saved as `.grn` files with a sibling `audio/` folder. Legacy `.grainulator` format supported. Automatic migration across 6 format versions.
+Projects saved as `.grn` files with a sibling `audio/` folder. Legacy `.grainulator` format supported.
+
+### Per-Project Audio Isolation
+
+Each project maintains its own `audio/` directory alongside the `.grn` file. When you export buffers, record audio, or save reel data, files are written to this project-specific folder.
+
+### What's Saved
+
+A project snapshot includes all synthesis parameters, granular/looper voice parameters and audio buffer references, sequencer patterns (step, chord, drum — all 8 drum patterns + pattern sequencer steps), per-track and per-lane swing/humanize settings, Scramble state, mixer state, effects parameters, plugin host backend preference, insert/send plugin snapshots, clock output configuration, master clock settings, and scale/root note selection.
+
+### Version History
+
+The project format has evolved through 7 versions (v1-v7), with automatic migration from older formats. Version 7 adds: drum pattern bank (8 patterns), pattern sequencer, multi-level swing (global + per-track + per-drum-lane), swing algorithm/grid settings, and humanize parameters.
+
+---
+
+## Settings
+
+### Audio
+
+| Setting | Description |
+|---|---|
+| **Output Device** | Select the CoreAudio output device |
+| **Input Device** | Select the CoreAudio input device (for recording) |
+| **Sample Rate** | Audio sample rate |
+| **Buffer Size** | Audio buffer size (latency vs stability tradeoff) |
+| **Plugin Hosting Backend** | Choose **Audio Units (AU)** or **VST3 (Experimental)** for mixer insert/send plugin hosting |
+
+### Sample Library
+
+| Setting | Description |
+|---|---|
+| **Sample Folders** | Manage folders that Grainulator scans for audio samples, SF2, and SFZ files |
 
 ---
 
@@ -95,6 +147,7 @@ Projects saved as `.grn` files with a sibling `audio/` folder. Legacy `.grainula
 | **Cmd + O** | Open Project |
 | **Cmd + S** | Save Project |
 | **Cmd + Shift + S** | Save As |
+| **Cmd + I** | Import Audio |
 
 ### Transport
 
@@ -102,13 +155,51 @@ Projects saved as `.grn` files with a sibling `audio/` folder. Legacy `.grainula
 |---|---|
 | **Space** | Play / Stop |
 | **Return** | Stop & Reset |
-| **Cmd + Up/Down** | Change BPM |
+| **Cmd + Up** | Increase BPM |
+| **Cmd + Down** | Decrease BPM |
+| **Cmd + Shift + Up** | Increase BPM ×10 |
+| **Cmd + Shift + Down** | Decrease BPM ×10 |
+| **Option + Up** | Fine increase BPM |
+| **Option + Down** | Fine decrease BPM |
 | **Cmd + .** | All Notes Off (panic) |
 
 ### View
 
 | Shortcut | Action |
 |---|---|
-| **Cmd + Shift + 1-4** | Switch workspace tabs |
-| **Cmd + 0-8** | Focus specific voice |
-| **X** | Toggle Mixer |
+| **Cmd + Shift + 1** | Sequencer tab |
+| **Cmd + Shift + 2** | Synths tab |
+| **Cmd + Shift + 3** | Granular tab |
+| **Cmd + Shift + 4** | Drums tab |
+| **Cmd + 0** | Multi-voice view |
+| **Cmd + 1-4** | Focus Granular voice 1-4 |
+| **Cmd + 5** | Focus Macro Osc |
+| **Cmd + 6** | Focus Resonator |
+| **Cmd + 7** | Focus Sampler |
+| **Cmd + 8** | Focus Drums |
+| **X** | Toggle Mixer window |
+| **Cmd + Shift + P** | Performance View |
+| **Cmd + F** | Cycle Focus |
+
+### Sequencer
+
+| Shortcut | Action |
+|---|---|
+| **Cmd + M** | Mute Track 1 |
+| **Cmd + Shift + M** | Mute Track 2 |
+
+### Effects
+
+| Shortcut | Action |
+|---|---|
+| **Cmd + Shift + D** | Toggle Delay Bypass |
+| **Cmd + Shift + R** | Toggle Reverb Bypass |
+| **Cmd + Shift + F** | Toggle Master Filter Bypass |
+
+### Audio
+
+| Shortcut | Action |
+|---|---|
+| **Cmd + Shift + E** | Start Audio Engine |
+| **Cmd + Option + E** | Stop Audio Engine |
+| **Cmd + ,** | Audio Settings |

@@ -6,7 +6,7 @@ const features = [
   {
     title: "Granular Engine",
     description:
-      "4 independent voices with 10 filter models, 8 grain envelope shapes, and per-voice recording with overdub. Includes a Looper and Slicer for creative looping of prerecorded audio and live inputs.",
+      "4 independent voices with 10 filter models, 8 grain envelope shapes, and per-voice recording with overdub. Dual-mode Slicer (auto-slice, 8×16 performance pattern grid, Tape/VHS performance FX) and Looper (MLRE-inspired tape-loop with rate, reverse, and cut buttons). Buffer export to WAV.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         <circle cx="8" cy="16" r="6" stroke="#FF6A3D" strokeWidth="1.5" opacity="0.9" />
@@ -45,7 +45,7 @@ const features = [
   {
     title: "Sequencers",
     description:
-      "Step, chord, drum, and Scramble sequencers. 42 scales, 12 direction modes, per-step probability, ratchets, and accumulator.",
+      "Step, chord, drum, and Scramble sequencers. 42 scales, 12 direction modes, per-step probability, ratchets, and accumulator. Drum sequencer with 8-pattern bank and pattern sequencer for chaining arrangements.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
@@ -66,7 +66,7 @@ const features = [
   {
     title: "Effects & Mixer",
     description:
-      "Tape delay with wow & flutter, reverb, master filter, compressor. 8-channel mixer with sends, inserts, and micro-delay.",
+      "Tape delay with wow & flutter, reverb, master filter, and master bus compressor/limiter (on by default). 8-channel mixer with non-linear fader law, sends, inserts, micro-delay, and -6dB summing headroom. Multi-level swing and humanize.",
     icon: (
       <svg viewBox="0 0 32 32" fill="none" className="h-8 w-8">
         {[6, 12, 18, 24].map((x, i) => (

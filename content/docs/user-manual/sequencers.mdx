@@ -7,47 +7,81 @@ section: User Manual
 
 ## Step Sequencer
 
-**2 tracks × 8 steps** with extensive per-step control. The two tracks run independently — each with its own clock division, direction, loop range, and output target.
+**2 tracks × 8 steps** with extensive per-step control. The two tracks run independently — each with its own clock division, direction, loop range, and output target. This means you can run a slow bass line on Track 1 targeting Macro Osc at /2 division while Track 2 plays a fast melodic pattern on Resonator at x4 division.
+
+Each step displays its note name (derived from the current scale and root note), its step type label (PLY, SKP, ELD, RST, TIE), and a vertical pitch slider. Click any step to open its full configuration popover.
 
 ### Track Settings
 
 | Setting | Description |
 |---|---|
-| **Output** | Macro Osc, Resonator, Both, Drums, or Sampler |
-| **CHD** | Chord-follow toggle |
-| **Direction** | 12 playback modes |
-| **Division** | 20 clock divisions |
+| **Output** | Note target: Macro Osc, Resonator, Both, Drums, or Sampler |
+| **CHD** | Per-track chord-follow toggle (when on, this track uses active chord intervals instead of fixed scale intervals) |
+| **Direction** | Playback direction (12 modes) |
+| **Division** | Clock division relative to master BPM (20 options) |
 | **Octave** | Base octave offset (-4 to +4) |
+| **Transpose** | Semitone transposition (-24 to +24) |
+| **Velocity** | Default MIDI velocity (1-127) |
 | **Loop Start/End** | Loop range (steps 1-8) |
+| **Run** | Enable/disable this track independently |
+| **Mute** | Silence output without stopping the sequence |
 
 ### Per-Step Parameters
 
 | Parameter | Description |
 |---|---|
 | **Note Slot** | Degree in current scale (0-8) |
+| **Octave** | Octave offset for this step (-4 to +4) |
+| **Velocity** | MIDI velocity (1-127) |
 | **Probability** | Chance of triggering (0-100%) |
 | **Ratchets** | Repetitions within the step (1-8) |
+| **Pulses** | Number of sub-pulses per step (1-8) |
 | **Gate Mode** | EVERY, FIRST, LAST, TIE, REST |
 | **Step Type** | PLAY, SKIP, ELIDE, REST, TIE |
+| **Gate Length** | Gate duration as fraction of pulse (1-100%) |
 | **Slide** | Portamento to next note |
 
 ### Direction Modes (12)
 
-Forward, Reverse, Alternate, Random, Skip 2, Skip 3, Climb 2, Climb 3, Drunk Walk, Random No Repeat, Converge, Diverge.
+| Mode | Label | Behavior |
+|---|---|---|
+| Forward | FWD | Steps forward linearly |
+| Reverse | REV | Steps backward linearly |
+| Alternate | ALT | Bounces back and forth |
+| Random | RND | Random step selection |
+| Skip 2 | SKP2 | Advance by 2, multi-pass coverage |
+| Skip 3 | SKP3 | Advance by 3, multi-pass coverage |
+| Climb 2 | CLM2 | 2-step window slides forward |
+| Climb 3 | CLM3 | 3-step window slides forward |
+| Drunk | DRNK | Random +/-1 walk |
+| Random No Repeat | RN!R | Random without repeating current step |
+| Converge | CNVG | Converges toward center |
+| Diverge | DIVG | Diverges from center outward |
 
 ### Scale System (42 Scales)
 
-Major, Natural Minor, Harmonic Minor, Melodic Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Whole Tone, Major/Minor Pentatonic, Bebop scales, Blues, Diminished, Neapolitan, Hungarian, Persian, Balinese, Oriental, Chromatic, and more — plus a dynamic Chord Sequencer mode.
+Major, Natural Minor, Harmonic Minor, Melodic Minor, Dorian, Phrygian, Lydian, Mixolydian, Locrian, Whole Tone, Major/Minor Pentatonic, Bebop scales, Blues, Diminished, Neapolitan, Hungarian, Persian, Balinese, Oriental, Chromatic, and more — plus a dynamic Chord Sequencer mode (scale #41) that replaces fixed scale intervals with the active chord tones.
 
 ### Accumulator System
 
-Per-step evolving pitch offset with Transpose, Range, Trigger mode (per-stage/pulse/ratchet), and Mode (per-step or shared across track).
+Per-step evolving pitch offset:
+
+| Parameter | Description |
+|---|---|
+| **Transpose** | Pitch offset per trigger (+/-7 scale degrees) |
+| **Range** | Wrap boundary (1-7 scale degrees) |
+| **Trigger** | When the counter increments: STG (per stage), PLS (per pulse), RCH (per ratchet) |
+| **Mode** | STG (per-step counter) or TRK (shared across all steps) |
+
+The accumulator wraps the counter symmetrically within +/- the range, creating rotating pitch patterns that evolve over time.
 
 ---
 
 ## Chord Sequencer
 
-**1-8 step chord progression** integrated with the step sequencer's scale system. When scale is set to "Chord Sequencer" (scale #41), note slots map to chord tones.
+**1-8 step chord progression** integrated with the step sequencer's scale system. When scale is set to "Chord Sequencer" (scale #41), note slots map to chord tones instead of a fixed scale.
+
+The chord sequencer UI is located below the two step sequencer tracks on the SEQ tab. It has its own clock division setting (independent of the track divisions), can be muted globally, and has a step-count control for active chord length.
 
 ### Per-Step Configuration
 
@@ -63,26 +97,110 @@ Pop/Rock, Jazz, Blues/Soul, Folk/Country, Minor/Dark, Modal/Ambient.
 
 ## Scramble (Probabilistic Sequencer)
 
-Marbles-inspired probabilistic sequencer with gate patterns, quantized note sequences, and modulation CV.
+Marbles-inspired probabilistic sequencer with gate patterns, quantized note sequences, and modulation CV. Scramble complements the step sequencer: while the step sequencer plays deterministic patterns, Scramble introduces controlled unpredictability. The two are transport-synced — they start, stop, and reset together, phase-aligned on the downbeat.
+
+The Scramble panel is displayed in the SEQ tab alongside the step sequencer, organized into three columns: **Gate Generator**, **Note Generator**, and **Mod Generator**.
 
 ### Gate Generator
 
-Three simultaneous gate outputs with 7 modes: Coin Toss, Ratio, Alternating, Drums, Markov, Clusters, Divider.
+Three simultaneous gate outputs per step:
 
-Controls: Bias, Length, Jitter, Deja Vu (Off/On/Locked), Loop length (1-16 steps).
+| Output | Role |
+|---|---|
+| **Gate 1** | Probabilistic gate (controlled by Bias and Mode) |
+| **Gate 2** | Master clock (always fires every step) |
+| **Gate 3** | Complementary / pattern-based (varies by mode) |
+
+**7 modes:** Coin Toss, Ratio, Alternating, Drums (8 preset patterns), Markov (8-state chain), Clusters (burst generator), Divider.
+
+**Controls:** Bias, Length, Jitter, Deja Vu (Off/On/Locked), DV Amt, Loop (1-16 steps), Divider.
+
+Each gate output can be routed to any trigger destination (Macro Osc, Resonator, Drums lanes, Sampler).
 
 ### Note Generator
 
-Three note outputs quantized to current scale. Control modes: Identical (unison), Tilt (fan spread), Bump (contrary motion).
+Three note outputs quantized to current scale. Notes are clocked by their respective gate outputs — Note 1 only updates when Gate 1 fires, Note 2 on every step, Note 3 when Gate 3 fires.
 
-Controls: Spread, Bias, Smooth/Quantize, Range (1/2/4 octaves), Deja Vu.
+**Control modes:** Identical (unison), Tilt (fan spread — Note 2 = center, Notes 1 & 3 offset), Bump (contrary motion — Note 2 = generated, Notes 1 & 3 = inverse).
+
+**Controls:** Spread, Bias, S/Q (Smooth/Quantize dual-mode slider), Range (1/2/4 octaves), Deja Vu, DV Amt, Loop, Divider.
+
+Each note output can be routed to a synthesis target (Macro Osc, Resonator, Drums, Sampler, or None).
+
+### Mod Generator
+
+Produces a single modulation CV value using the same Spread/Bias/S-Q pipeline as the note generator.
+
+**Controls:** Spread, Bias, S/Q, Divider. The mod output can be configured with a destination and amount in the UI.
 
 ### Deja Vu
 
-Pattern memory system — **Off** (fresh random), **On** (probabilistic replay), **Locked** (frozen loop).
+Pattern memory system shared between gate and note generators:
+
+| State | Behavior |
+|---|---|
+| **Off** | Fresh random values every step |
+| **On** | Records into a loop buffer; each step has a probability (DV Amt) of replaying a recorded value |
+| **Locked** | Only replays recorded values — the sequence loops deterministically |
+
+The **Loop** parameter (1-16) controls loop length. Shorter loops = more repetitive; longer = more variation before repeating.
 
 ---
 
 ## Drum Sequencer
 
-**4 lanes × 16 steps** synced to master transport. Each lane triggers a DaisyDrums engine with per-step velocity and per-lane Harmonics/Timbre/Morph controls.
+**4 lanes × 16 steps** synced to master transport. Each lane triggers a DaisyDrums engine. The 16-step grid provides classic drum machine programming — click steps to toggle them on/off, adjust velocity per step, and shape each lane's sound with dedicated knob controls.
+
+### Lane Configuration
+
+| Lane | Default Engine | Default Note |
+|---|---|---|
+| 0 | Analog Kick | C2 (36) |
+| 1 | Synth Snare | D2 (38) |
+| 2 | Analog Snare | E2 (52) |
+| 3 | Hi-Hat | A4 (69) |
+
+### Per-Lane Controls
+
+| Control | Description |
+|---|---|
+| **Level** | Lane output volume |
+| **Harmonics** | Engine harmonics parameter |
+| **Timbre** | Engine timbre parameter |
+| **Morph** | Engine morph parameter |
+| **Note** | MIDI note (C1-C7 range) |
+| **Mute** | Silence the lane |
+
+### Per-Step Controls
+
+Each of the 16 steps has:
+- **Active** toggle (on/off)
+- **Velocity** (0-1, mapped to MIDI velocity 1-127)
+
+### Pattern Bank (8 Patterns)
+
+The drum sequencer includes a **pattern bank** with 8 storable patterns. The pattern bank row appears above the step grid:
+
+| Control | Description |
+|---|---|
+| **Pattern buttons (1-8)** | Click to switch between patterns. The active pattern is highlighted. Non-empty patterns show a dim accent border. |
+
+When you switch patterns, the current step data (active toggles and velocities) is saved to the outgoing pattern and the new pattern's data is loaded into the grid. Voice parameters (level, harmonics, timbre, morph, note, mute) stay on the lane and are **not** pattern-specific — matching the behavior of classic drum machines like the TR-808/909.
+
+### Pattern Sequencer
+
+Below the step grid, a **pattern sequencer** chains patterns during playback:
+
+| Control | Description |
+|---|---|
+| **PAT SEQ** label | Identifies the pattern sequencer row |
+| **Division** | Clock division for pattern changes (how often the pattern advances) |
+| **RUN** | Start/stop the pattern sequencer |
+| **RST** | Reset the pattern sequencer to step 1 |
+| **Steps (1-8)** | Each step shows a pattern number (1-8). Click to cycle through pattern assignments. The current step is highlighted with a white border during playback. |
+
+The pattern sequencer advances on bar boundaries (determined by the division setting), automatically switching the active drum pattern. This enables longer, evolving drum arrangements from your 8 base patterns.
+
+### Step Division
+
+The drum sequencer has its own clock division setting (default: x4 = 16th notes), using the same 20 divisions as the step sequencer.

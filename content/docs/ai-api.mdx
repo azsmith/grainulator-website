@@ -38,9 +38,70 @@ curl http://127.0.0.1:4850/v1/state \
   -H "Authorization: Bearer $TOKEN"
 
 # Query specific path
-curl http://127.0.0.1:4850/v1/state?path=plaits.engine \
-  -H "Authorization: Bearer $TOKEN"
+curl -X POST http://127.0.0.1:4850/v1/state/query \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"paths": ["plaits.engine", "transport.bpm"]}'
 ```
+
+## Endpoints
+
+### Sessions & Discovery
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/sessions` | Create a new session |
+| DELETE | `/sessions/{sessionId}` | Close a session |
+| GET | `/capabilities` | List available modules and actions |
+| GET | `/parameters` | List all parameter specs with types, ranges, and units |
+
+### State
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/state` | Full canonical state snapshot |
+| POST | `/state/query` | Query specific state paths |
+
+### Actions
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/actions/validate` | Validate an action bundle before scheduling |
+| POST | `/actions/schedule` | Schedule a validated action bundle |
+| GET | `/actions/scheduled` | List pending scheduled bundles |
+| POST | `/actions/{bundleId}/cancel` | Cancel a scheduled bundle |
+
+### History
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/history/undo` | Undo the last action bundle |
+| POST | `/history/redo` | Redo an undone action bundle |
+| GET | `/history` | Get activity history |
+
+### Scenes
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/scenes` | Save the current state as a named scene |
+| POST | `/scenes/{sceneId}/recall` | Recall a saved scene |
+
+### Files
+
+| Method | Path | Description |
+|---|---|---|
+| POST | `/files/search` | Search for audio files |
+| POST | `/files/{fileId}/load` | Load a file into a voice |
+
+### Recording
+
+| Method | Path | Description |
+|---|---|---|
+| GET | `/recording/voices` | List all voice recording states |
+| POST | `/recording/voices/{voiceId}/start` | Start recording on a voice |
+| POST | `/recording/voices/{voiceId}/stop` | Stop recording on a voice |
+| POST | `/recording/voices/{voiceId}/feedback` | Set overdub feedback level |
+| POST | `/recording/voices/{voiceId}/mode` | Set recording mode (replace, overdub, live_overdub) |
 
 ## Action Bundles
 
@@ -89,20 +150,44 @@ curl -X POST http://127.0.0.1:4850/v1/actions/schedule \
 | **set** | Set a parameter to a specific value |
 | **ramp** | Ramp a parameter over time |
 | **toggle** | Toggle a boolean parameter |
+| **trigger** | Fire a one-shot trigger |
+| **loadFile** | Load an audio file into a voice |
+| **startRecording** | Start recording on a voice |
+| **stopRecording** | Stop recording on a voice |
+| **setRecordingFeedback** | Set overdub feedback level |
+| **setRecordingMode** | Change recording mode |
+| **saveScene** | Save current state as a scene |
+| **recallScene** | Recall a saved scene |
+| **morphScene** | Crossfade to a scene over time |
 
-## Recording Control
+## Looper Action Targets
 
-```bash
-# Start recording on granular voice 1
-curl -X POST http://127.0.0.1:4850/v1/recording/start \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"voice": "grain1", "mode": "oneshot"}'
-```
+The API exposes looper-specific targets for slicer and looper mode control:
+
+| Target Path | Values | Description |
+|---|---|---|
+| `loop.{voice}.mode` | slicer, looper | Switch between slicer and looper modes |
+| `loop.{voice}.slice.{n}.start` | 0-1 | Slice start position |
+| `loop.{voice}.slice.{n}.end` | 0-1 | Slice end position |
+| `loop.{voice}.slice.{n}.speed` | float | Slice playback speed |
+| `loop.{voice}.slice.{n}.level` | 0-1 | Slice output level |
+| `loop.{voice}.slice.{n}.reverse` | bool | Reverse playback |
+| `loop.{voice}.slice.{n}.oneShot` | bool | One-shot vs loop |
+| `loop.{voice}.autoSlice` | 2-8 | Trigger auto-slicing |
+| `loop.{voice}.pattern.record` | — | Start pattern recording |
+| `loop.{voice}.pattern.play` | — | Start pattern playback |
+| `loop.{voice}.pattern.clear` | — | Clear pattern |
 
 ## WebSocket Events
 
-Connect to `ws://127.0.0.1:4850/v1/events` for real-time state change notifications. Events include parameter changes, transport state, and recording status.
+Connect to `ws://127.0.0.1:4850/v1/events` for real-time state change notifications. Events include:
+
+- **State changes:** `state.changed`, `parameter.changed`
+- **Transport:** `transport.started`, `transport.stopped`
+- **Recording:** `recording.started`, `recording.stopped`, `recording.feedback_changed`, `recording.mode_changed`
+- **Looper:** `looper.mode_changed`, `looper.slices_created`, `looper.slices_cleared`, `looper.slice_triggered`, `looper.slice_changed`, `looper.pattern.record_started`, `looper.pattern.play_started`, `looper.pattern.cleared`
+- **Scenes:** `scene.saved`, `scene.recalled`
+- **Actions:** `bundle.scheduled`, `bundle.applied`, `bundle.cancelled`
 
 ## Idempotency
 
@@ -116,4 +201,4 @@ Use the `/grainulator` skill in Claude Code for natural language control:
 /grainulator set the macro osc to the string model and play a C minor arpeggio
 ```
 
-For the complete API specification, see the [OpenAPI schema](https://github.com/andysmith/Grainulator/blob/main/ai-conversational-control-openapi.yaml).
+For the complete API specification, see the [OpenAPI schema](https://github.com/azsmith/grainulator/blob/main/ai-conversational-control-openapi.yaml).

@@ -1,6 +1,6 @@
 ---
-title: Granular & Looper
-description: 4 granular voices, 2 looper voices, recording modes
+title: Granular, Slicer & Looper
+description: 4 granular voices, dual-mode slicer/looper, recording
 order: 13
 section: User Manual
 ---
@@ -24,8 +24,8 @@ Click **LOAD** on any voice to open a file browser. Supported formats: WAV, AIFF
 | **Size** | Grain duration in milliseconds |
 | **Density** | Number of overlapping grains per second |
 | **Jitter** | Randomization of grain start position |
-| **Spread** | Stereo width of the grain cloud |
-| **Morph** | Additional timbral morphing |
+| **Spread** | Stereo width of the grain cloud (-1 to +1 pan range) |
+| **Morph** | Additional timbral morphing / grain parameter variation |
 
 ### Filter
 
@@ -37,12 +37,12 @@ Each voice has an independent filter with cutoff and resonance. Ten models avail
 | 1 | **Microtracker** | Vintage tracker / chiptune feel |
 | 2 | **Krajeski** | Balanced, musical self-oscillation |
 | 3 | **MusicDSP** | General-purpose, efficient |
-| 4 | **Oberheim** | Smooth, rounded ladder |
-| 5 | **Improved** | Enhanced ladder, cleaner resonance |
+| 4 | **Oberheim** | Smooth, rounded ladder response |
+| 5 | **Improved** | Enhanced ladder model with cleaner resonance behavior |
 | 6 | **RK Simulation** | Runge-Kutta circuit simulation, very smooth |
 | 7 | **Hyperion** | Extended range, rich harmonics (default) |
-| 8 | **DaisyLadder** | Punchy analog character |
-| 9 | **CytomicSVF** | Stable and versatile state-variable |
+| 8 | **DaisyLadder** | DaisySP ladder variant with punchy analog character |
+| 9 | **CytomicSVF** | Cytomic state-variable filter model, stable and versatile |
 
 ### Grain Envelope Shapes
 
@@ -53,32 +53,103 @@ Each voice has an independent filter with cutoff and resonance. Ten models avail
 | **Trapezoid** | Flat top with linear ramps |
 | **Triangle** | Simple linear fade in/out |
 | **Tukey** | Flat center with cosine edges |
-| **Pluck** | Fast exponential decay |
-| **Pluck Soft** | Slower exponential decay |
-| **Exp Decay** | Pure exponential decay (percussive) |
+| **Pluck** | Fast exponential decay (plucked string character) |
+| **Pluck Soft** | Slower exponential decay (nylon string character) |
+| **Exp Decay** | Pure exponential decay from start (percussive) |
 
 ### Recording into Buffers
 
+Each granular voice can record audio directly into its buffer:
+
 | Setting | Options |
 |---|---|
-| **Mode** | One-Shot (record once) or Live Loop (continuous overdub) |
-| **Source** | External (mic/input) or internal engine channels |
-| **Feedback** | Overdub level (0 = destructive, 1 = full layer) |
+| **Mode** | One-Shot (record once, stop) or Live Loop (continuous overdub) |
+| **Source** | External (microphone/audio input), or internal engine channels |
+| **Feedback** | Live loop overdub level (0 = destructive replace, 1 = full layer) |
 
 ---
 
-## Looper
+## Slicer / Looper
 
-Two independent **MLRE-inspired looper voices** for tape-loop style recording and playback, inspired by monome mlr/mlrv.
+Two independent voices provide both **slicer** (performance slice triggering) and **looper** (tape-loop style playback) modes, inspired by the monome mlr/mlrv Max/MSP applications. Each voice maintains its own audio buffer that can be loaded from files or recorded live. The GRAINS tab shows a **SLICER** sub-tab and a **LOOPER** sub-tab for each voice.
 
-### Controls
+### Modes
+
+| Mode | Description |
+|---|---|
+| **Slicer** | Divides the buffer into up to 8 slices. Slices are triggered individually by the performance pattern grid or manually. Continuous loop playback is disabled — only triggered slices produce sound. |
+| **Looper** | Traditional tape-loop playback with rate control, reverse, and cut buttons for live performance. |
+
+### Slicer Mode
+
+#### Auto-Slicing
+
+When audio is loaded or recorded, the slicer automatically divides the buffer into **8 equal slices**. Slice boundaries can be manually adjusted after auto-slicing.
+
+#### Per-Slice Parameters
+
+Each of the 8 slices has independent controls:
+
+| Parameter | Description |
+|---|---|
+| **Start** | Slice start position within the buffer (normalized 0-1) |
+| **End** | Slice end position within the buffer (normalized 0-1) |
+| **Speed** | Playback speed for this slice |
+| **Level** | Output level for this slice |
+| **Reverse** | Play this slice in reverse |
+| **One-Shot** | Play slice once (no loop) vs. loop continuously while held |
+
+#### Performance Pattern Grid (8 slices × 16 steps)
+
+The slicer includes a **step sequencer grid** for triggering slices rhythmically:
+
+- **8 rows** (one per slice) × **16 columns** (steps)
+- Click cells to toggle slice triggers on/off
+- The pattern is synced to the master transport via the master clock's sample-accurate beat position
+- A configurable **clock division** controls the step rate (same 20 divisions as the step sequencer)
+- The **playhead** shows the current step position during playback
+
+When the transport plays, the pattern scheduler triggers the corresponding slices at each step. Multiple slices can trigger simultaneously on the same step.
+
+#### Waveform Display
+
+The waveform overview uses **2048-point resolution** for precise transient visibility and accurate slice boundary placement. Slice boundaries are shown as overlay markers on the waveform.
+
+### Performance FX
+
+Each slicer voice has a **Performance FX** panel with two effects that can be latched or momentary:
+
+| Effect | Parameters | Description |
+|---|---|---|
+| **Tape** | Speed, Wow, Crinkle | Lo-fi tape degradation — slows playback speed, adds pitch wobble and tape crinkle noise |
+| **VHS** | Tracking, Dropout, Head Switch | VHS-style artifacts — tracking errors, signal dropouts, and head-switching noise |
+
+Each effect has a **Latch** toggle: when latched, the effect stays on until toggled off; when unlatched, the effect is momentary (active only while held).
+
+### Buffer Export
+
+Each slicer/looper voice has an **Export** button that saves the current audio buffer as a WAV file. Exported files are saved to the project's `audio/` folder with a timestamped filename. Audio files are isolated per project — each project maintains its own `audio/` directory alongside the `.grn` file.
+
+### Looper Mode Controls
 
 | Control | Description |
 |---|---|
 | **Rate** | Playback speed (0.25x to 4x) |
 | **Reverse** | Toggle reverse playback |
-| **Loop Start** | Start position (0-1) |
-| **Loop End** | End position (0-1) |
-| **Cut (1-8)** | Eight cut buttons for position jumping |
+| **Loop Start** | Start position within the buffer (0-1) |
+| **Loop End** | End position within the buffer (0-1) |
+| **Cut (1-8)** | Eight cut buttons that jump the playback position to evenly-spaced points in the buffer. Press Cut 1 to jump to the start, Cut 5 to jump to the middle, etc. |
 
-> **Tip:** Load a drum loop and rapidly tap different cut positions for stutter and rearrangement effects. Combine with rate changes and reverse for glitch-style performance.
+> **Tip:** The cut buttons are designed for live performance. Load a drum loop and rapidly tap different cut positions to create stutter and rearrangement effects. Combine with rate changes and reverse for glitch-style performance. The looper output can also be routed as an exciter source for the Resonator, creating pitched resonances from rhythmic material.
+
+### Recording
+
+Each slicer/looper voice supports recording from external inputs or internal engine sources:
+
+| Setting | Options |
+|---|---|
+| **Mode** | One-Shot (default — record once, buffer normalizes to recorded length on stop) or Live Loop (continuous overdub with wrapping) |
+| **Source** | External (microphone/audio input), or internal engine channels |
+| **Feedback** | Live loop overdub level (0 = destructive replace, 1 = full layer) |
+
+> **Note:** The default recording mode is **One-Shot**, which normalizes the buffer to the actual recorded length when you stop. This ensures the waveform display and slice boundaries reflect only the recorded content, not the full pre-allocated buffer.
