@@ -13,7 +13,8 @@ export default function Footer() {
         {/* Links */}
         <div className="flex items-center gap-6">
           <a
-            href="#"
+            href="/Grainulator-0.6.1.dmg"
+            download
             className="text-sm text-text-muted transition-colors hover:text-accent"
           >
             Download
@@ -25,7 +26,7 @@ export default function Footer() {
             Docs
           </a>
           <a
-            href="#"
+            href="https://github.com/azsmith/grainulator"
             className="text-sm text-text-muted transition-colors hover:text-accent"
           >
             GitHub

@@ -47,7 +47,8 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="#"
+            href="/Grainulator-0.6.1.dmg"
+            download
             className="rounded-lg bg-accent/10 px-4 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent/20"
           >
             Download
@@ -96,7 +97,8 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="#"
+            href="/Grainulator-0.6.1.dmg"
+            download
             className="mt-2 rounded-lg bg-accent/10 px-3 py-2.5 text-center text-sm font-medium text-accent"
           >
             Download
