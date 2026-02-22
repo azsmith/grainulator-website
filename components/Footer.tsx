@@ -13,7 +13,7 @@ export default function Footer() {
         {/* Links */}
         <div className="flex items-center gap-6">
           <a
-            href="/Grainulator-0.6.1.dmg"
+            href="/Grainulator-0.6.2.dmg"
             download
             className="text-sm text-text-muted transition-colors hover:text-accent"
           >
