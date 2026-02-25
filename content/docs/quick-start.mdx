@@ -8,14 +8,20 @@ Grainulator is a macOS granular/wavetable synthesizer with a built-in step seque
 
 ## Installation
 
-1. [Download the latest `.dmg`](/Grainulator-0.7.1.dmg) and open it, or build from source:
+1. Download Grainulator without Terminal:
+   - From this site: [Download the latest `.dmg`](/Grainulator-0.7.1.dmg)
+   - From GitHub Releases: `https://github.com/azsmith/grainulator/releases` -> open latest release -> **Assets** -> click `.dmg`
+2. Optional GitHub source ZIP (no `git`):
+   - Open `https://github.com/azsmith/grainulator`
+   - Click **Code** -> **Download ZIP**
+3. Optional: build from source (Terminal required):
    ```bash
-   git clone <repo-url>
-   cd Grainulator
-   swift build
+   git clone https://github.com/azsmith/grainulator.git
+   cd grainulator
+   swift build -c release
    ```
-2. Move **Grainulator.app** to your Applications folder and launch it.
-3. On first launch, grant microphone access if prompted (required for live audio recording into granular buffers).
+4. Move **Grainulator.app** to your Applications folder and launch it.
+5. On first launch, grant microphone access if prompted (required for live audio recording into granular buffers).
 
 ## First Launch
 
