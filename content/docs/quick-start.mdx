@@ -23,6 +23,27 @@ Grainulator is a macOS granular/wavetable synthesizer with a built-in step seque
 4. Move **Grainulator.app** to your Applications folder and launch it.
 5. On first launch, grant microphone access if prompted (required for live audio recording into granular buffers).
 
+## Download Drum And Sample Libraries
+
+### Robot Drummer kit (SFZ drum library)
+
+1. Download Virtuosity Drums without Terminal:
+   1. Open `https://github.com/sfzinstruments/virtuosity_drums`
+   2. Click **Code** -> **Download ZIP**
+   3. Unzip the archive in Finder
+2. In Grainulator, go to **DRUMS -> Robot** and click **Locate Kits**.
+3. Select either the unzipped root folder or its `Programs` folder.
+
+![Virtuosity Drums download ZIP flow](/screenshots/docs/virtuosity-download-zip.png)
+
+### Add SF2/SFZ folders to Grainulator
+
+1. Open **Settings -> Library**.
+2. Click **Add Folder** and select the parent folder containing `.sf2` / `.sfz` files.
+3. In **SAMPLER**, switch mode to **SF2** or **SFZ** and choose a file from the source menu.
+
+![Sample library folders in Settings](/screenshots/docs/library-settings.png)
+
 ## First Launch
 
 When Grainulator opens you will see:
@@ -61,6 +82,10 @@ The default view is the **SEQ** (sequencer) tab.
    - **MORPH** — additional timbral morphing
 5. Try different **envelope shapes** (Hanning, Gaussian, Pluck, Trapezoid, etc.) and **filter models** (10 options including Hyperion, DaisyLadder, and CytomicSVF) using the dropdowns below the waveform.
 
+![Granular voice panel](/screenshots/docs/grains-main-panel.png)
+
+![Granular input source routing](/screenshots/docs/grains-input-routing.png)
+
 ## Program a Sequence
 
 1. Click the **SEQ** tab.
@@ -72,6 +97,18 @@ The default view is the **SEQ** (sequencer) tab.
 7. Use the **CHD** button per track when you want that track to follow chord intervals instead of the current fixed scale.
 
 > **Tip:** Enable the **Chord Sequencer** section below the tracks to drive harmonic movement. You can set chord length from 1-8 steps, choose from preset categories, and program your own progression from 12 degrees and 17 chord qualities.
+
+## First Beat (Robot Drummer)
+
+1. Go to **DRUMS** and select **Robot** mode.
+2. Choose a **Genre** and **Song Part**, then click **Generate**.
+3. Raise **Kick**, **Snare**, and **Hi-Hat** complexity first.
+
+![Robot drummer mode controls](/screenshots/docs/robot-mode.png)
+
+If you want manual programming instead, switch to **Synth** mode:
+
+![Drum sequencer grid in Synth mode](/screenshots/docs/drum-grid.png)
 
 ## Record Your Output
 
