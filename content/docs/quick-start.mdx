@@ -9,7 +9,7 @@ Grainulator is a macOS granular/wavetable synthesizer with a built-in step seque
 ## Installation
 
 1. Download Grainulator without Terminal:
-   - From this site: [Download the latest `.dmg`](/Grainulator-0.7.2.dmg)
+   - From this site: [Download the latest `.dmg`](/Grainulator-0.8.0.dmg)
    - From GitHub Releases: `https://github.com/azsmith/grainulator/releases` -> open latest release -> **Assets** -> click `.dmg`
 2. Optional GitHub source ZIP (no `git`):
    - Open `https://github.com/azsmith/grainulator`
@@ -144,9 +144,14 @@ If you want manual programming instead, switch to **Synth** mode:
 
 Now that you have the basics, dig into these features:
 
+- **16-Step Sequencer** — expanded from 8 to 16 steps per track, with **conditional trigs** (Elektron-style), **per-step velocity**, and **parameter locks** (p-locks) for per-step control of any synth parameter (SEQ tab)
+- **Drift Sequencer** — evolving Turing Machine module that generates shifting melodic patterns (SEQ tab)
+- **Software Instruments** — host AU/VST3 instrument plugins directly in Grainulator (SYNTHS tab)
+- **Autosave Recovery** — automatic 60-second snapshots so you never lose work
+- **Core Audio HAL** — low-latency direct hardware access with aggregate audio device support and mono-to-stereo input promotion
 - **Scramble** — Marbles-inspired probabilistic sequencer with 7 gate modes, 3 note outputs with Spread/Bias/Quantize shaping, Deja Vu looping, and flexible routing to any engine (SEQ tab)
 - **Resonator** — physical-modeling resonator with 6 models, polyphony, and 11 chord types (SYNTHS tab)
-- **DaisyDrums** — 5-lane × 16-step drum sequencer with synth/sample modes, **AI Drummer**, **12 drum kits**, **8-pattern bank**, and **pattern sequencer** for chaining patterns (DRUMS tab)
+- **DaisyDrums** — 6-lane × 16-step drum sequencer with synth/sample modes, **AI Drummer**, **12 drum kits**, **8-pattern bank**, dedicated **Cymbal and PercFM engines**, and **pattern sequencer** for chaining patterns (DRUMS tab)
 - **Swing & Humanize** — multi-level swing (global, per-track, per-drum-lane) with MPC and SINE algorithms, plus humanize for random timing/velocity variation
 - **Slicer / Looper** — 2 voices with dual modes: **Slicer** (auto-slice into 8 segments, performance pattern grid, **Tape/VHS performance FX** with latch) and **Looper** (MLRE-inspired tape-loop with rate, reverse, and cut buttons). Buffer export to WAV. (GRAINS tab)
 - **Mixer** — 8 channel strips with level/pan, dual sends, micro-delay, phase invert, FX return strips, and master section with non-linear fader law and -6dB summing headroom (floating window)
